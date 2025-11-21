@@ -1,0 +1,68 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SecurityDotnet.Dtos;
+using SecurityDotnet.Service;
+
+namespace SecurityDotnet.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController(IAuthService authService) : ControllerBase
+    {
+
+        [HttpPost("register")]
+        public async Task<ActionResult<RegisterResponseDto?>> Register([FromBody] RegisterDto request)
+        { 
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            RegisterResponseDto? result = await authService.RegisterAsync(request);
+            if (result == null) return BadRequest(new { message = "User with this email already exist"});
+
+            return Ok(result);
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<TokenResponseDto>> Login([FromBody] LoginDto request)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            TokenResponseDto? result = await authService.LoginAsync(request);
+            if (result == null) return Unauthorized(new {message = "Incorrect username or password"});
+
+            return Ok(result);
+        }
+
+        [HttpGet("refresh-token")]
+        public async Task<ActionResult<TokenResponseDto>> RefreshToken([FromBody] RefreshTokenRequestDto request)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            TokenResponseDto? tokenResponseDto = await authService.RefreshTokenAsync(request);
+            if (tokenResponseDto == null) return BadRequest(new { message = "Invalid refresh token" });
+
+            return Ok(tokenResponseDto);
+        }
+
+        [HttpGet("password-reset-email")]
+        public async Task<object> PasswordResetEmail([FromBody] PasswordResetEmail request)
+        {
+            object? response = await authService.PasswordResetEmailAsync(request.Email);
+            if (response == null) return BadRequest(new { message = "No user found with email" });
+            return Ok(response);
+        }
+
+        [HttpGet("authenticated")]
+        [Authorize]
+        public ActionResult<string> GetAuthenticatedData()
+        {
+            return Ok(new {message = "This is a protected api" });
+        }
+
+        [HttpGet("roles-required")]
+        [Authorize(Roles = "User,Admin,Manager,CEO")]
+        public ActionResult<string> RolesRequired()
+        {
+            return Ok(new { message = "Roles required to access" });
+        }
+    }
+}
