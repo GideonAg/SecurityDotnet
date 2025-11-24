@@ -8,5 +8,6 @@ namespace SecurityDotnet.Service
         Task<TokenResponseDto?> LoginAsync(LoginDto request);
         Task<TokenResponseDto?> AccessTokenAsync(AccessTokenRequestDto request);
         Task<object?> PasswordResetEmailAsync(string email);
+        Task<ResponseDto?> ResetPasswordAsync(PasswordResetDto request);
     }
 }

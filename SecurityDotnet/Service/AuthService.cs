@@ -115,6 +115,7 @@ namespace SecurityDotnet.Service
 
             string code = GeneratePasswordResetCode();
             user.PasswordResetCode = code;
+            user.PasswordResetCodeTime = DateTime.UtcNow.AddMinutes(10);
             appDbContext.SaveChanges();
 
             await SendPasswordResetEmail(email, code);
@@ -174,6 +175,22 @@ namespace SecurityDotnet.Service
             await smtpClient.ConnectAsync("localhost", 1025);
             await smtpClient.SendAsync(message);
             await smtpClient.DisconnectAsync(true);
+        }
+
+        public async Task<ResponseDto?> ResetPasswordAsync(PasswordResetDto request)
+        {
+            User? user = await appDbContext.Users.FirstOrDefaultAsync(user => user.PasswordResetCode == request.Code);
+            if (user == null) return null;
+            if (user.PasswordResetCodeTime != null && user.PasswordResetCodeTime <= DateTime.UtcNow) return null;
+
+            string hassedPassword = new PasswordHasher<User>()
+                .HashPassword(user, request.Password);
+            user.Password = hassedPassword;
+            user.PasswordResetCodeTime = DateTime.UtcNow;
+
+            await appDbContext.SaveChangesAsync();
+
+            return new ResponseDto { Message = "Password reset successful" };
         }
     }
 }

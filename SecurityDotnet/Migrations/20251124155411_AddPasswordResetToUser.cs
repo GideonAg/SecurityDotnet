@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SecurityDotnet.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class AddPasswordResetToUser : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,8 @@ namespace SecurityDotnet.Migrations
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PasswordResetCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    PasswordResetCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordResetCodeTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

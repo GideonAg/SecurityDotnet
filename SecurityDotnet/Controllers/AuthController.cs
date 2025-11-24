@@ -51,6 +51,15 @@ namespace SecurityDotnet.Controllers
             return Ok(response);
         }
 
+        [HttpPost("password-reset")]
+        public async Task<ActionResult<ResponseDto>> PasswordReset([FromBody] PasswordResetDto request)
+        {
+            ResponseDto? responseDto = await authService.ResetPasswordAsync(request);
+            if (responseDto == null) return BadRequest(new { message = "Invalid password reset code" } );
+
+            return Ok(responseDto);
+        }
+
         [HttpGet("authenticated")]
         [Authorize]
         public ActionResult<string> GetAuthenticatedData()

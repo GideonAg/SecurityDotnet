@@ -22,5 +22,6 @@ namespace SecurityDotnet.Entities
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime {  get; set; }
         public string? PasswordResetCode { get; set; }
+        public DateTime? PasswordResetCodeTime { get; set; }
     }
 }

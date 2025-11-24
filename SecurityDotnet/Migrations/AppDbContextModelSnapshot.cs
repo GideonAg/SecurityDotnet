@@ -39,6 +39,9 @@ namespace SecurityDotnet.Migrations
                     b.Property<string>("PasswordResetCode")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("PasswordResetCodeTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
 

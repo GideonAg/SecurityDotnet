@@ -12,8 +12,8 @@ using SecurityDotnet.Data;
 namespace SecurityDotnet.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251121101709_Init")]
-    partial class Init
+    [Migration("20251124155411_AddPasswordResetToUser")]
+    partial class AddPasswordResetToUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,9 @@ namespace SecurityDotnet.Migrations
 
                     b.Property<string>("PasswordResetCode")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PasswordResetCodeTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
