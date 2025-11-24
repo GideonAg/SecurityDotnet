@@ -38,7 +38,7 @@ namespace SecurityDotnet.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             TokenResponseDto? tokenResponseDto = await authService.AccessTokenAsync(request);
-            if (tokenResponseDto == null) return BadRequest(new { message = "Invalid refresh token" });
+            if (tokenResponseDto == null) return BadRequest(new { message = "Invalid refresh token or user id" });
 
             return Ok(tokenResponseDto);
         }
