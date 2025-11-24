@@ -98,7 +98,7 @@ namespace SecurityDotnet.Service
             return refreshToken;
         }
 
-        public async Task<TokenResponseDto?> RefreshTokenAsync(RefreshTokenRequestDto request)
+        public async Task<TokenResponseDto?> AccessTokenAsync(AccessTokenRequestDto request)
         {
             User? user = await appDbContext.Users.FindAsync(request.UserId);
             if (user == null || user.RefreshToken != request.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow) 

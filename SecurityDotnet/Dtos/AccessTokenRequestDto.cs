@@ -2,7 +2,7 @@
 
 namespace SecurityDotnet.Dtos
 {
-    public class RefreshTokenRequestDto
+    public class AccessTokenRequestDto
     {
         [Required(AllowEmptyStrings =false, ErrorMessage ="Valid user id is required")]
         public Guid UserId { get; set; }

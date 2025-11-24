@@ -6,7 +6,7 @@ namespace SecurityDotnet.Service
     {
         Task<RegisterResponseDto?> RegisterAsync(RegisterDto request);
         Task<TokenResponseDto?> LoginAsync(LoginDto request);
-        Task<TokenResponseDto?> RefreshTokenAsync(RefreshTokenRequestDto request);
+        Task<TokenResponseDto?> AccessTokenAsync(AccessTokenRequestDto request);
         Task<object?> PasswordResetEmailAsync(string email);
     }
 }

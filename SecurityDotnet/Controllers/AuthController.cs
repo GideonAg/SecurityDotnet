@@ -20,7 +20,7 @@ namespace SecurityDotnet.Controllers
 
             return Ok(result);
         }
-
+         
         [HttpPost("login")]
         public async Task<ActionResult<TokenResponseDto>> Login([FromBody] LoginDto request)
         {
@@ -32,12 +32,12 @@ namespace SecurityDotnet.Controllers
             return Ok(result);
         }
 
-        [HttpGet("refresh-token")]
-        public async Task<ActionResult<TokenResponseDto>> RefreshToken([FromBody] RefreshTokenRequestDto request)
+        [HttpGet("access-token")]
+        public async Task<ActionResult<TokenResponseDto>> AccessToken([FromBody] AccessTokenRequestDto request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            TokenResponseDto? tokenResponseDto = await authService.RefreshTokenAsync(request);
+            TokenResponseDto? tokenResponseDto = await authService.AccessTokenAsync(request);
             if (tokenResponseDto == null) return BadRequest(new { message = "Invalid refresh token" });
 
             return Ok(tokenResponseDto);
