@@ -11,7 +11,7 @@ namespace SecurityDotnet.Controllers
     {
 
         [HttpPost("register")]
-        public async Task<ActionResult<RegisterResponseDto?>> Register([FromBody] RegisterDto request)
+        public async Task<ActionResult<RegisterResponseDto>> Register([FromBody] RegisterDto request)
         { 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
